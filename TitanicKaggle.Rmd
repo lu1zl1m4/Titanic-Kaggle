@@ -435,7 +435,7 @@ indicesx <- indice(c("Name", "PassengerId"),
 titanTrain <- titanicTrain[,-indices]
 titanTest <- titanicTest[,-indicesx]
 
-# Criando modelo
+# Criando modelo 1
 model.rf <- randomForest(x = titanTrain[,-1], 
                          importance = TRUE, proximity = TRUE, 
                          y = titanTrain$Survived)
@@ -448,5 +448,19 @@ PassengerId <- titanicTest$PassengerId
 
 Resultado <- as.data.frame(cbind(PassengerId, Survived))
 Resultado$Survived <- ifelse(Resultado$Survived == 1, 0, 1)
+
+# Criando modelo 2
+model.rf2 <- randomForest(x = titanTrain[,-1], 
+                         importance = TRUE, proximity = TRUE, 
+                         y = titanTrain$Survived, mtry = 2)
+
+# Predição
+model.pred2 <- predict(model.rf2, titanTest, type = "class")
+
+Survived <- model.pred2
+PassengerId <- titanicTest$PassengerId
+
+Resultado2 <- as.data.frame(cbind(PassengerId, Survived))
+Resultado2$Survived <- ifelse(Resultado2$Survived == 1, 0, 1)
 ```
 
